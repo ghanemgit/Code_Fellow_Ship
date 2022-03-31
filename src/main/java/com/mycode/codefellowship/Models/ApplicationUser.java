@@ -41,7 +41,6 @@ public class ApplicationUser implements UserDetails {
     private String bio;
 
 
-
     public ApplicationUser(String username, @NonNull String password, @NonNull String firstName, @NonNull String lastName, @NonNull String dateOfBirth, @NonNull String bio) {
         this.username = username;
         this.password = password;
