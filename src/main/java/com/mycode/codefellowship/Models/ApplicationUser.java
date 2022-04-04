@@ -7,10 +7,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.Set;
 
-@NoArgsConstructor
 @RequiredArgsConstructor
-@ToString
 @Getter
 @Setter
 @Entity
@@ -40,14 +39,20 @@ public class ApplicationUser implements UserDetails {
     @NonNull
     private String bio;
 
+    @NonNull
+    private String imageUrl;
 
-    public ApplicationUser(String username, @NonNull String password, @NonNull String firstName, @NonNull String lastName, @NonNull String dateOfBirth, @NonNull String bio) {
+    public ApplicationUser() {
+    }
+
+    public ApplicationUser(String username, @NonNull String password, @NonNull String firstName, @NonNull String lastName, @NonNull String dateOfBirth, @NonNull String bio, @NonNull String imageUrl) {
         this.username = username;
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
         this.dateOfBirth = dateOfBirth;
         this.bio = bio;
+        this.imageUrl = imageUrl;
     }
 
     public Long getId() {
@@ -89,4 +94,12 @@ public class ApplicationUser implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
+    @Override
+    public String toString() {
+        return ("Welcome, " + username + " Your info is\nFirst Name : "+ firstName +"\nLast Name : " + lastName +"\nDate of Birth : " + dateOfBirth + "\nBio : " + bio);
+    }
+
+    @OneToMany(mappedBy = "applicationUser")
+    private Set<Post> posts;
 }
