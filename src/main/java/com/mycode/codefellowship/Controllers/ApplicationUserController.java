@@ -6,6 +6,8 @@ import com.mycode.codefellowship.Models.Post;
 import com.mycode.codefellowship.Repository.ApplicationUserRepository;
 import com.mycode.codefellowship.Repository.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -32,7 +34,12 @@ public class ApplicationUserController {
 
     @GetMapping("/signup")
     public String getSignupPage() {
-        return "/signup.html";
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null || authentication instanceof AnonymousAuthenticationToken) {
+            return "/signup.html";
+        }
+
+        return "redirect:/profile";
     }
 
     @PostMapping("/signup")
@@ -42,15 +49,25 @@ public class ApplicationUserController {
         return new RedirectView("/login");
     }
 
+
+
     @GetMapping("/login")
-    public String getLoginPage() {
-        return "/login.html";
+    public String showLoginForm(Model model) {
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null || authentication instanceof AnonymousAuthenticationToken) {
+            return "login.html";
+        }
+
+        return "redirect:/profile";
     }
 
     @PostMapping("/perform_login")
     public RedirectView getDashboardPage() {
         return new RedirectView("dashboard");
     }
+
+
 
 
     @GetMapping("/dashboard")
@@ -66,13 +83,17 @@ public class ApplicationUserController {
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         model.addAttribute("username",userDetails.getUsername());
         ApplicationUser applicationUser = applicationUserRepository.findByUsername(userDetails.getUsername());
-        applicationUser.setImageUrl("/Assert/img.png");
+        applicationUser.setImageUrl("/css/Assert/img.png");
         model.addAttribute("ImageUrl",applicationUser.getImageUrl());
         model.addAttribute("firstName",applicationUser.getFirstName());
         model.addAttribute("lastName",applicationUser.getLastName());
         model.addAttribute("dataOfBirth",applicationUser.getDateOfBirth());
         model.addAttribute("bio",applicationUser.getBio());
+        applicationUser.setFullName(applicationUser.getFirstName()+" "+applicationUser.getLastName());
+        model.addAttribute("fullName",applicationUser.getFullName());
         model.addAttribute("userPosts" , applicationUserRepository.findByUsername(userDetails.getUsername()).getPosts());
+//        Post posts = postRepository.findAllByApplicationUserId(applicationUser.getId());
+//        model.addAttribute("posts",posts);
 
         return "profile.html";
     }
@@ -91,15 +112,7 @@ public class ApplicationUserController {
 
     }
 
-    @PostMapping("/post")
-    public RedirectView createNewPost(@ModelAttribute Post post){
 
-    UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-    post.setApplicationUser(applicationUserRepository.findByUsername(userDetails.getUsername()));
-    postRepository.save(post);
-    return new RedirectView("profile");
-
-    }
 
     @GetMapping("/error")
     public String errorHandler() {

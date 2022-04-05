@@ -9,7 +9,7 @@ import javax.persistence.*;
 import java.util.Collection;
 import java.util.Set;
 
-@RequiredArgsConstructor
+
 @Getter
 @Setter
 @Entity
@@ -42,6 +42,9 @@ public class ApplicationUser implements UserDetails {
     @NonNull
     private String imageUrl;
 
+    @NonNull
+    private String fullName;
+
     public ApplicationUser() {
     }
 
@@ -59,6 +62,14 @@ public class ApplicationUser implements UserDetails {
         return id;
     }
 
+    @NonNull
+    public String getFullName() {
+        return fullName;
+    }
+
+    public void setFullName(@NonNull String fullName) {
+        this.fullName = fullName;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

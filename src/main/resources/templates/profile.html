@@ -12,7 +12,18 @@
 </head>
 
 <body class="loginBody">
-
+<ul>
+    <li>
+        <form action="/perform_logout">
+            <input type="submit" value="Log Out" class="signupSubmit">
+        </form>
+    </li>
+    <li>
+        <form action="/dashboard">
+            <input type="submit" value="Dashboard" class="signupSubmit">
+        </form>
+    </li>
+</ul>
 <div class="logo-image">
     <div class="profile-text">
         <div class="profile_text">
@@ -30,28 +41,20 @@
 
                 </div>
             </div>
-            <form action="/login">
-                <input type="submit" value="Log Out" class="signupSubmit">
-            </form>
 
-            <form action="/dashboard">
-                <input type="submit" value="Dashboard" class="signupSubmit">
-            </form>
         </div>
     </div>
 </div>
-
 
 <div class="stream-posts" th:each="post: ${userPosts}">
     <div class="stream-post">
         <div class="sp-author">
             <a href="#" class="sp-author-avatar"></a>
-            <h6 class="sp-author-name" th:text="${firstName}"  style="color: white"><span th:text="${lastName}"></span></h6>
-                <div class="sp-content">
-                    <div class="sp-info" th:text="${post.createdAt}" style="color: white">
-                        <p class="sp-paragraph mb-0" th:text="${post.body}" style="color: white"></p>
-                    </div>
-                </div>
+            <h6 class="sp-author-name" th:text="${fullName}" style="color: white"></h6>
+            <div class="sp-content">
+                <p class="sp-paragraph mb-0" th:text="${post.createdAt}" style="color: white"></p>
+                <div class="sp-info" th:text="${post.body}" style="color: white"></div>
+            </div>
         </div>
     </div>
 </div>
