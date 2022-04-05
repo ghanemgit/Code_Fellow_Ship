@@ -10,14 +10,26 @@
     <link rel="stylesheet" href="css/style.css">
     <title>Dashboard</title>
 </head>
-<body class="loginBody" >
+<body class="loginBody">
+<ul>
+    <li>
+        <form action="/profile">
+            <input type="submit" value="Profile" class="signupSubmit">
+        </form>
+    </li>
+    <li>
+        <form action="/perform_logout">
+            <input type="submit" value="Log Out" class="signupSubmit">
+        </form>
+    </li>
+</ul>
 
 <div class="logo-image">
     <div class="logo-text">
 
-        <img src="../Assert/logo.png" alt="logo">
-
-        <h1 style="color: white" >Welcome, <span sec:authentication="name" style="color: white">Welcome guest!</span></h1>
+        <img src="/css/Assert/logo.png" alt="logo">
+        <h1 style="color: white">Welcome, <span sec:authentication="name" style="color: white">Welcome guest!</span>
+        </h1>
 
         <h2 style="color: white">Welcome to your Dashboard</h2>
 
@@ -28,21 +40,11 @@
                     <div class="form-group">
                         <label for="floatingTextarea" style="color: white">Post</label><br><br>
                         <textarea class="form-control" placeholder="Post Something" name="body" id="floatingTextarea"
-                                  style="width: 700px" ></textarea>
+                                  style="width: 700px"></textarea>
                     </div>
                 </div>
             </div>
             <input type="submit" class="signupSubmit" value="Post">
-        </form>
-
-
-        <form action="/profile">
-            <input type="submit" value="Profile" class="signupSubmit">
-        </form>
-
-
-        <form action="/login">
-            <input type="submit" value="Log Out" class="signupSubmit">
         </form>
 
 

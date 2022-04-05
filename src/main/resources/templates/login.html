@@ -12,15 +12,25 @@
 </head>
 <body class="loginBody">
 
-
+<ul>
+    <li>
+        <form action="/">
+            <input type="submit" value="Home page" class="signupSubmit">
+        </form><br><br>
+    </li>
+    <li>
+        <form action="/signup">
+            <input type="submit" value="Signup" class="signupSubmit">
+        </form>
+    </li>
+</ul>
 <div class="logo-image">
     <div class="logo-text">
+
         <h1 style="color: white">Welcome To Code Fellow, Please Login</h1>
-        <img src="../Assert/logo.png" alt="logo">
+        <img src="/css/Assert/logo.png" alt="logo">
 
         <form action="/perform_login" method="post">
-
-
             <div class="col">
                 <div class="form-floating mb-3 mt-3">
                     <input type="text" class="form-control" id="username" name="username" placeholder="Username">
@@ -33,21 +43,13 @@
                     <label for="password">Password</label>
                 </div>
             </div>
-
             <input type="submit" class="signupSubmit" value="Login"><br><br>
-
-
-
         </form>
-        <form action="/">
-            <input type="submit" value="Home page" class="signupSubmit">
-        </form><br><br>
-        <h2 style="color: white">OR</h2>
-        <form action="/signup">
-            <input type="submit" value="Signup" class="signupSubmit">
-        </form>
+
+
     </div>
 </div>
+
 
 
 </body>
