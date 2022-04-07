@@ -11,10 +11,26 @@
     <title>SignUp</title>
 </head>
 <body class="signUp">
+<ul>
+    <li>
+        </form>
+        <form action="/login">
+            <input type="submit" value="Return to login" class="signupSubmit">
+        </form>
+
+    </li>
+    <li>
+        <form action="/">
+            <input type="submit" value="Home page" class="signupSubmit">
+        </form>
+    </li>
+</ul>
+
 <div class="logo-image">
     <div class="logo-text">
+
         <h1 style="color: white">Welcome To Code Fellow, Please Signup</h1>
-        <img src="../Assert/logo.png" alt="logo" class="logoImage" width="100px" height="100px">
+        <img src="/css/Assert/logo.png" alt="logo" class="logoImage" width="100px" height="100px">
 
         <form action="/signup" method="post">
 
@@ -27,7 +43,8 @@
                 </div>
                 <div class="col">
                     <div class="form-floating mb-3 mt-3">
-                        <input type="password" class="form-control" id="password" name="password" placeholder="Password">
+                        <input type="password" class="form-control" id="password" name="password"
+                               placeholder="Password">
                         <label for="password">Password</label>
                     </div>
                 </div>
@@ -39,7 +56,8 @@
 
                 <div class="col">
                     <div class="form-floating mb-3 mt-3">
-                        <input type="text" class="form-control" id="firstName" name="firstName" placeholder="First Name">
+                        <input type="text" class="form-control" id="firstName" name="firstName"
+                               placeholder="First Name">
                         <label for="firstName">First Name</label>
                     </div>
                 </div>
@@ -59,7 +77,7 @@
             <br><br>
             <div class="form-group">
                 <div class="form-floating">
-                    <input type="url" class="form-control" placeholder="Image url" name="imageUrl" id="imageUrl" >
+                    <input type="url" class="form-control" placeholder="Image url" name="imageUrl" id="imageUrl">
                     <label for="floatingTextarea">Image url</label><br><br>
                 </div>
             </div>
@@ -72,13 +90,6 @@
             </div>
             <input type="submit" class="signupSubmit">
 
-        </form>
-        <form action="/login">
-            <input type="submit" value="Return to login" class="signupSubmit">
-        </form>
-        <form action="/">
-            <input type="submit" value="Home page" class="signupSubmit">
-        </form>
 
     </div>
 </div>
