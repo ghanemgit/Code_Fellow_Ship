@@ -7,9 +7,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 
-
+@AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
 @Entity
@@ -45,18 +47,20 @@ public class ApplicationUser implements UserDetails {
     @NonNull
     private String fullName;
 
-    public ApplicationUser() {
-    }
+    @OneToMany(mappedBy = "applicationUser")
+    private Set<Post> posts;
 
-    public ApplicationUser(String username, @NonNull String password, @NonNull String firstName, @NonNull String lastName, @NonNull String dateOfBirth, @NonNull String bio, @NonNull String imageUrl) {
-        this.username = username;
-        this.password = password;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.dateOfBirth = dateOfBirth;
-        this.bio = bio;
-        this.imageUrl = imageUrl;
-    }
+    @ManyToMany(cascade = { CascadeType.ALL})
+    @JoinTable(
+            name = "user_user",
+            joinColumns = { @JoinColumn(name = "from_id") },
+            inverseJoinColumns = { @JoinColumn(name = "to_id") }
+    )
+    List<ApplicationUser> following ;
+
+    @ManyToMany(mappedBy = "following", fetch = FetchType.EAGER)
+    List<ApplicationUser> followers;
+
 
     public Long getId() {
         return id;
@@ -67,8 +71,8 @@ public class ApplicationUser implements UserDetails {
         return fullName;
     }
 
-    public void setFullName(@NonNull String fullName) {
-        this.fullName = fullName;
+    public void setFullName() {
+        this.fullName = firstName+" "+lastName;
     }
 
     @Override
@@ -111,6 +115,8 @@ public class ApplicationUser implements UserDetails {
         return ("Welcome, " + username + " Your info is\nFirst Name : "+ firstName +"\nLast Name : " + lastName +"\nDate of Birth : " + dateOfBirth + "\nBio : " + bio);
     }
 
-    @OneToMany(mappedBy = "applicationUser")
-    private Set<Post> posts;
+
+    public void setFollowers(ApplicationUser applicationUser){
+        this.followers.add(applicationUser);
+    }
 }

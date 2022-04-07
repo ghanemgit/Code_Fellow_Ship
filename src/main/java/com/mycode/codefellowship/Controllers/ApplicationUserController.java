@@ -2,9 +2,7 @@ package com.mycode.codefellowship.Controllers;
 
 
 import com.mycode.codefellowship.Models.ApplicationUser;
-import com.mycode.codefellowship.Models.Post;
 import com.mycode.codefellowship.Repository.ApplicationUserRepository;
-import com.mycode.codefellowship.Repository.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -12,9 +10,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 @Controller
@@ -26,8 +24,7 @@ public class ApplicationUserController {
     @Autowired
     private ApplicationUserRepository applicationUserRepository;
 
-    @Autowired
-    private PostRepository postRepository;
+
 
 
 
@@ -92,8 +89,6 @@ public class ApplicationUserController {
         applicationUser.setFullName(applicationUser.getFirstName()+" "+applicationUser.getLastName());
         model.addAttribute("fullName",applicationUser.getFullName());
         model.addAttribute("userPosts" , applicationUserRepository.findByUsername(userDetails.getUsername()).getPosts());
-//        Post posts = postRepository.findAllByApplicationUserId(applicationUser.getId());
-//        model.addAttribute("posts",posts);
 
         return "profile.html";
     }
@@ -112,6 +107,29 @@ public class ApplicationUserController {
 
     }
 
+    @GetMapping("/users")
+    String showUsers(Model model) {
+        model.addAttribute("applicationUsers", applicationUserRepository.findAll());
+
+        return "users.html";
+    }
+
+    @Transactional
+    @GetMapping("/follow/{id}")
+    String showFollowSuccessScreen(@PathVariable("id") long id, Model model) {
+
+        ApplicationUser userToFollow = applicationUserRepository.findById(id).orElseThrow();
+
+        ApplicationUser currentLoggedInUser = applicationUserRepository.findById(1L).orElseThrow();
+        currentLoggedInUser.getFollowers().add(userToFollow);
+
+        userToFollow.getFollowing().add(currentLoggedInUser);
+
+        applicationUserRepository.save(userToFollow);
+        applicationUserRepository.save(currentLoggedInUser);
+
+        return "success.html";
+    }
 
 
     @GetMapping("/error")
